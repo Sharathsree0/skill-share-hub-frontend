@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { checkAuth } from "../features/auth/userSlice";
+import { checkAuth } from "../features/profile/userSlice";
 import type { AppDispatch } from "../store/store";
 
 function App() {
