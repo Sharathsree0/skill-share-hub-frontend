@@ -1,1 +1,0 @@
-# skill-share-hub-frontend
