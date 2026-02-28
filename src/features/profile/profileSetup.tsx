@@ -1,16 +1,57 @@
-import type { User } from "../../shared/types/user.Type";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../shared/services/axios";
+import { useAppSelector } from "../../shared/hooks/redux";
 
-type Props = {
-  user: User;
+type ProfileForm = {
+  fullName: string;
+  bio: string;
+  experience: string;
 };
 
-const ProfileSetup = ({ user }: Props) => {
+export default function ProfileSetup() {
   const navigate = useNavigate();
+  const role = useAppSelector((state) => state.user.role);
 
-  const handleSubmit = () => {
-    // save profile data
-    navigate("/dashboard");
+  const [form, setForm] = useState<ProfileForm>({
+    fullName: "",
+    bio: "",
+    experience: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // If no role → user not authenticated
+  if (!role) {
+    navigate("/login");
+    return null;
+  }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      await api.post("/users/profile", form);
+
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Profile update failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSkip = () => {
@@ -18,23 +59,75 @@ const ProfileSetup = ({ user }: Props) => {
   };
 
   return (
-    <div>
-      <h1>Complete Your Profile</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+      <div className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-lg">
 
-      <form onSubmit={handleSubmit}>
-        <input placeholder="Bio" />
-        <input placeholder="Experience" />
+        <h1 className="text-2xl font-bold mb-2 text-center">
+          Complete Your Profile
+        </h1>
+        <p className="text-sm text-gray-500 text-center mb-6">
+          Help others know more about you.
+        </p>
 
-        <button type="submit">Save</button>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-        {user.role === "tutor" && (
-          <button type="button" onClick={handleSkip}>
-            Skip
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={form.fullName}
+            onChange={handleChange}
+            className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#145537]"
+            required
+          />
+
+          <textarea
+            name="bio"
+            placeholder="Short Bio"
+            value={form.bio}
+            onChange={handleChange}
+            rows={3}
+            className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#145537]"
+            required
+          />
+
+          <input
+            type="text"
+            name="experience"
+            placeholder="Experience (e.g. 3 years in React)"
+            value={form.experience}
+            onChange={handleChange}
+            className="border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[#145537]"
+          />
+
+          {error && (
+            <p className="text-sm text-red-500 text-center">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`py-3 rounded-lg font-semibold text-white transition ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#145537] hover:bg-[#0f3f2a] active:scale-95"
+            }`}
+          >
+            {loading ? "Saving..." : "Save Profile"}
           </button>
-        )}
-      </form>
+
+          {role === "tutor" && (
+            <button
+              type="button"
+              onClick={handleSkip}
+              className="text-sm text-gray-500 hover:underline text-center"
+            >
+              Skip for now
+            </button>
+          )}
+
+        </form>
+      </div>
     </div>
   );
-};
-
-export default ProfileSetup;    
+}
