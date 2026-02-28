@@ -1,58 +1,28 @@
 import { useState } from "react";
-import Input from "./components/Input";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "../../shared/hooks/redux";
+import ButtonSpinner from "../../shared/components/ButtonSpinner";
+import Input from "../../shared/components/Input";
+import type {RegisterInput} from './authTypes'
+import { regSchema, type RegFormData } from "./validations";
+import { checkAuth } from "../profile/userSlice";
 import api from "../../shared/services/axios";
 import axios from "axios";
-import { useAppDispatch } from "../../shared/hooks/redux";
-import { checkAuth } from "../profile/userSlice";
-import ButtonSpinner from "../../shared/components/ButtonSpinner";
-import type {RegisterError,RegisterInput} from './types/authTypes'
 
 export default function Register() {
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<RegFormData>({
     name : "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState<RegisterError>({});
+  const [error, setError] = useState<Partial <RegFormData>>({});
   const [loading,setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const validate = () => {
-    const errorObj: RegisterError = {};
-    const { email, password, confirmPassword , name } = form;
-    if(!name){
-      errorObj.name = "Name Required!";
-    }else if(name.trim().length < 4){
-      errorObj.name = "Name is too short!"
-    }
-
-    if (!email) {
-      errorObj.email = "Email is required.";
-    } else if (!email.includes("@")) {
-      errorObj.email = "Enter a valid email.";
-    }
-
-    if (!password) {
-      errorObj.password = "Password is required.";
-    } else if (password.trim().length < 8) {
-      errorObj.password = "At least 8 characters.";
-    }
-
-    if (!confirmPassword) {
-      errorObj.confirmPassword = "Confirm your password.";
-    } else if (confirmPassword !== password) {
-      errorObj.confirmPassword = "Passwords do not match.";
-    }
-
-    setError(errorObj);
-    return Object.keys(errorObj).length !== 0;
-  };
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((pre) => ({ ...pre, [e.target.name]: e.target.value }));
     setError(pre => ({...pre,[e.target.name]:null}));
@@ -60,7 +30,20 @@ export default function Register() {
 
   const handleSubmit = async (e:React.SubmitEvent) => {
     e.preventDefault();
-    if(validate())return;
+
+    const result = regSchema.safeParse(form)
+    if (!result.success) {
+      const errorObj:Partial<RegFormData> = {};
+
+      result.error.issues.forEach((err) => {
+        const field = err.path[0] as keyof RegFormData;
+        errorObj[field] = err.message;
+      });
+
+      setError(errorObj);
+      return;
+    }
+
     try{
       setLoading(true);
       await api.post("/auth/register",form);
@@ -68,7 +51,7 @@ export default function Register() {
       navigate('/login');
     }catch(error){
       if(axios.isAxiosError(error)){
-        const errorObj:RegisterError = {}
+        const errorObj:Partial<RegFormData> = {}
         switch(error.response?.status){
           case 400 : 
            errorObj.email = "Required!"

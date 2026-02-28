@@ -1,46 +1,25 @@
 import { useState } from "react";
-import Input from "./components/Input";
+import Input from "../../shared/components/Input";
 import { useNavigate } from "react-router";
 import api from "../../shared/services/axios";
 import axios from "axios";
 import { useAppDispatch } from "../../shared/hooks/redux";
 import { checkAuth } from "../profile/userSlice";
 import ButtonSpinner from "../../shared/components/ButtonSpinner";
-import type {LoginError,LoginInput} from './types/authTypes'
+import type {LoginInput} from './authTypes'
+import { type LogFormData, logSchema } from "./validations";
 
 export default function Login() {
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LogFormData>({
     email: "",
     password: ""
   });
-  const [error, setError] = useState<LoginError>({});
+  const [error, setError] = useState<Partial<LogFormData>>({});
   const [loading,setLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const validate = () => {
-    const errorObj: LoginError = {};
-    const { email, password } = form;
-
-    if (!email) {
-      errorObj.email = "Email is required.";
-    } else if (!email.includes("@")) {
-      errorObj.email = "Enter a valid email.";
-    }
-
-    if (!password) {
-      errorObj.password = "Password is required.";
-    } else if (password.trim().length < 8) {
-      errorObj.password = "At least 8 characters.";
-    }
-
-    setError(errorObj);
-    return Object.keys(errorObj).length !== 0;
-  };
-
-  console.log(form);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((pre) => ({ ...pre, [e.target.name]: e.target.value }));
@@ -49,7 +28,20 @@ export default function Login() {
 
   const handleSubmit = async (e:React.SubmitEvent) => {
     e.preventDefault();
-    if(validate())return;
+
+    const result = logSchema.safeParse(form);
+
+    if(!result.success){
+      const errorObj:Partial<LogFormData> = {}
+
+      result.error.issues.forEach(err=>{
+        const field = err.path[0] as keyof LogFormData
+        errorObj[field] = err.message
+      });
+      setError(errorObj);
+      return;
+    }
+    
     try{
       setLoading(true);
       await api.post("/auth/login",form);
@@ -57,7 +49,9 @@ export default function Login() {
       navigate('/');
     }catch(error){
       if(axios.isAxiosError(error)){  
-        if(error.response?.status === 401)setError({email:"User Blocked!"});
+        if(error.response?.status === 401){
+          setError({email:"Invalid email or password!"});
+        }
       }
     }finally{
       setLoading(false);
