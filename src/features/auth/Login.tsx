@@ -8,6 +8,8 @@ import { checkAuth } from "../profile/userSlice";
 import ButtonSpinner from "../../shared/components/ButtonSpinner";
 import type {LoginInput} from './authTypes'
 import { type LogFormData, logSchema } from "./validations";
+import { GoogleLogin } from "@react-oauth/google";
+import { handleOauth } from "./service";
 
 export default function Login() {
 
@@ -115,10 +117,7 @@ export default function Login() {
             </span>
           </div>
 
-          <button className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-gray-300 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 active:scale-95">
-            <img src="/googleLogo.png" className="h-5 w-5" alt="G" />
-            Continue with Google
-          </button>
+          <GoogleLogin shape="pill" onSuccess={handleOauth} onError={()=>console.log("Login failed")} />
 
           <div className="mt-6 text-sm text-gray-500 flex justify-center items-center gap-1">
             <div>Don't have an account?</div>
