@@ -94,7 +94,7 @@ export default function Login() {
     <div className="flex h-[520px] w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-2xl">
 
         {
-          open ? (<Forgot/>) :
+          open ? (<Forgot sendOtp={handleForget} form={form}/>) :
           (
             <div className="flex w-full flex-col justify-center p-8 md:w-1/2 lg:p-12">
               <div className="mb-6 md:hidden">
