@@ -79,7 +79,14 @@ export default function Login() {
     }catch(error){
       if(axios.isAxiosError(error)){
         switch(error.response?.status){
-
+          case 404 :
+            setError({email:"User Not Exist!"});
+            break;
+          case 400 :
+            setError({email : "Enter a valid Email!"});
+            break;
+          default :
+            setError({email : "Something Went Wrong!"});
         }
       }
     }

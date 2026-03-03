@@ -8,6 +8,7 @@ import { checkAuth } from "../../profile/userSlice";
 import { useAppDispatch } from "../../../shared/hooks/redux";
 import axios from "axios";
 import OtpInput from "./OtpInput";
+import { useNavigate } from "react-router-dom";
 
 export default function OtpForm(
   { setOpen, form , handleOtp }: 
@@ -17,6 +18,8 @@ export default function OtpForm(
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const [loading, setLoading] = useState(false);
   const [error,setError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
   
   const dispatch = useAppDispatch();
 
@@ -32,6 +35,7 @@ export default function OtpForm(
       setLoading(true);
       await api.post("/auth/register", { ...form, otp: otp.join("") });
       dispatch(checkAuth());
+      navigate('/profile');
     } catch (error) {
       if(axios.isAxiosError(error)){
         switch(error.response?.status){

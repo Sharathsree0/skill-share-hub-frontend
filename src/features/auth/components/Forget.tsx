@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { LogFormData } from "../validations";
+import { logSchema, type LogFormData } from "../validations";
 import OtpInput from "./OtpInput";
 import Input from "../../../shared/components/Input";
 import { z } from "zod";
@@ -8,18 +8,12 @@ import ButtonSpinner from "../../../shared/components/ButtonSpinner";
 import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 
-const forgotSchema = z.object({
+const forgotSchema = logSchema.extend({
   otp: z
     .string()
     .length(6, "Enter a valid OTP")
-    .regex(/[0-9]/),
-  password: z
-    .string()
-    .regex(/[A-Z]/, "1 UpperCase Needed")
-    .regex(/[a-z]/, "1 LowerCase Needed")
-    .regex(/[0-9]/, "1 Number Needed") // Corrected regex to include 0-9
-    .min(8, "8 characters Needed"),
-});
+    .regex(/[0-9]/)
+})
 
 export default function Forgot({
   form,
@@ -37,7 +31,7 @@ export default function Forgot({
   const [loading, setLoading] = useState(false);
 
   const handleForget = async () => {
-    const payload = { otp: otp.join(""), password };
+    const payload = { otp: otp.join(""), password , email:form.email };
 
     const result = forgotSchema.safeParse(payload);
     if (!result.success) {
@@ -55,6 +49,12 @@ export default function Forgot({
     } catch (err) {
       if(axios.isAxiosError(err)){
         switch(err.response?.status){
+          case 401 : 
+           setError("Invalid OTP");
+           break;
+          case 404 :
+           setError("OTP Expired!");
+           break;
           
         }
       }
