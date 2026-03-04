@@ -2,7 +2,7 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 
 const StudentDashboard = () => {
   return (
-    <DashboardLayout role="student">
+    <DashboardLayout >
       <h1>Student Dashboard</h1>
     </DashboardLayout>
   );

@@ -52,7 +52,7 @@ export default function Login() {
       setLoading(true);
       await api.post("/auth/login",form);
       dispatch(checkAuth());
-      navigate('/');
+      navigate('/profile');
     }catch(error){
       if(axios.isAxiosError(error)){  
         if(error.response?.status === 401){
