@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { z } from 'zod';
 import ButtonSpinner from "../../../shared/components/ButtonSpinner";
 import api from "../../../shared/services/axios";
-import { checkAuth } from "../../profile/userSlice";
+import { checkAuth } from "../../auth/authSlice";
 import { useAppDispatch } from "../../../shared/hooks/redux";
 import axios from "axios";
 import OtpInput from "./OtpInput";
