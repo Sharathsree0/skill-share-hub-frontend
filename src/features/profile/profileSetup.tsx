@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import api from "../../shared/services/axios";
@@ -47,7 +48,6 @@ export default function ProfileSetup() {
       });
     }
   }, []);
-
   if (!user) return <Navigate to="/login" replace />;
 
   const alreadyComplete = isProfileComplete(user) && !editMode;
@@ -89,6 +89,14 @@ export default function ProfileSetup() {
       return form.fullName.trim() !== "" && form.bio.trim() !== "";
     return true;
   };
+  if(!user){
+    navigate('/login');
+    return null
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="absolute top-0 left-0 w-full h-64 bg-green-700"></div>
 
   const next = () => {
     if (step === "role") setStep("details");
