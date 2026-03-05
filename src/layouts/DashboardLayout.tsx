@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../shared/hooks/redux";
-import { setUserLogout } from "../features/profile/userSlice";
+import { setUserLogout } from "../features/auth/authSlice";
 import Sidebar from "../features/dashboard/Sidebar";
 
 type Props = { children: ReactNode };

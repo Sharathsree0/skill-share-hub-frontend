@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router";
 import AuthLayout from "../layouts/AuthLayout";
 import Register from "../features/auth/pages/Register";
 import Login from "../features/auth/pages/Login";
-import ProfileSetup from "../features/profile/profileSetup";
+// import ProfileSetup from "../features/profile/profileSetup";
 import Dashboard from "../features/dashboard/Dashboard";
 import PublicRoute from "../routes/PublicRoute";
 
@@ -23,7 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Route>
       </Route>
-      <Route path="/profile" element={<ProfileSetup />} />
+      {/* <Route path="/profile" element={<ProfileSetup />} /> */}
       <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
