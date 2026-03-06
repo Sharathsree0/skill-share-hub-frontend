@@ -8,6 +8,7 @@ import Login from "../features/auth/pages/Login";
 // import ProfileSetup from "../features/profile/profileSetup";
 import Dashboard from "../features/dashboard/Dashboard";
 import PublicRoute from "../routes/PublicRoute";
+import CreateCoursePage from "../features/courses/pages/CreateCoursePage";
 import Home from "../features/home/Home";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       </Route>
       {/* <Route path="/profile" element={<ProfileSetup />} /> */}
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/create-course" element={<CreateCoursePage />} />
     </Routes>
   );
 }
