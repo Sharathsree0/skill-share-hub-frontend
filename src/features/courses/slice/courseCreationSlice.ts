@@ -3,6 +3,7 @@ import type { CourseBuilderState } from "../types/course.types"
 import { submitCourse } from "../thunk/course.thunk";
 
 const initialState: CourseBuilderState = {
+    id: undefined,
     step: 1,
 
     title: "",
@@ -10,6 +11,7 @@ const initialState: CourseBuilderState = {
 
     category: "",
     courseLevel: "",
+    courseSkills: [],
 
     courseType: "paid",
 
@@ -42,6 +44,13 @@ const courseBuilderSlice = createSlice({
             Object.assign(state, action.payload)
         },
 
+        setCourse(state, action: PayloadAction<CourseBuilderState>) {
+            return {
+                ...action.payload,
+                step: state.step // preserve current step if needed, or maybe reset to 1? usually reset to 1 for new edit page
+            }
+        },
+
         nextStep(state) {
             state.step += 1
         },
@@ -68,7 +77,7 @@ const courseBuilderSlice = createSlice({
     }
 })
 
-export const { updateField, updateFields, nextStep, prevStep, resetCourse } =
+export const { updateField, updateFields, setCourse, nextStep, prevStep, resetCourse } =
     courseBuilderSlice.actions
 
 export default courseBuilderSlice.reducer
