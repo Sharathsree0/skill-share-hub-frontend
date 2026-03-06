@@ -9,6 +9,7 @@ import Login from "../features/auth/pages/Login";
 import Dashboard from "../features/dashboard/Dashboard";
 import PublicRoute from "../routes/PublicRoute";
 import CreateCoursePage from "../features/courses/pages/CreateCoursePage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -17,17 +18,20 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route element={<PublicRoute />}>
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
         </Route>
-      </Route>
-      {/* <Route path="/profile" element={<ProfileSetup />} /> */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/create-course" element={<CreateCoursePage />} />
-    </Routes>
+        {/* <Route path="/profile" element={<ProfileSetup />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-course" element={<CreateCoursePage />} />
+      </Routes>
+    </>
   );
 }
 
