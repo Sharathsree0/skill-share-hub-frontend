@@ -17,7 +17,7 @@ export default function Home() {
         >
             {/* Global Background Elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden h-full w-full">
-                {/* Radial Gradients */}
+
                 <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(circle at top right, rgba(20,85,55,0.08), transparent 40%)' }}></div>
                 <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(circle at bottom left, rgba(20,85,55,0.06), transparent 45%)' }}></div>
 
