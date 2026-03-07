@@ -1,9 +1,12 @@
 export interface CourseBuilderState {
+    id?: string
     step: number
     title: string
     description: string
     category: string
-    courseLevel: "Beginner" | "Intermediate" | "Expert" | ""
+    courseLevel: "beginner" | "intermediate" | "expert" | ""
+    courseSkills: string[]
+
     courseType: "paid" | "credit"
     price: number
     creditCost: number
