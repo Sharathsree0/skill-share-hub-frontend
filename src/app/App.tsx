@@ -11,11 +11,13 @@ import CreateCoursePage from "../features/courses/pages/CreateCoursePage";
 import Home from "../features/home/Home"; // added
 import { Toaster } from "react-hot-toast";
 
+import EditCoursePage from "../features/courses/pages/EditCoursePage";
+
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth(() => {}));
+    dispatch(checkAuth(() => { }));
   }, [dispatch]);
 
   return (
@@ -37,6 +39,7 @@ function App() {
         {/* Protected / App Routes */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/create-course" element={<CreateCoursePage />} />
+        <Route path="/edit-course/:id" element={<EditCoursePage />} />
       </Routes>
     </>
   );
