@@ -10,6 +10,7 @@ import PublicRoute from "../routes/PublicRoute";
 import CreateCoursePage from "../features/courses/pages/CreateCoursePage";
 import Home from "../features/home/Home"; // added
 import { Toaster } from "react-hot-toast";
+import MyCoursesPage from "../features/tutorCourses/pages/MyCoursesPage";
 
 import EditCoursePage from "../features/courses/pages/EditCoursePage";
 
@@ -39,6 +40,7 @@ function App() {
         {/* Protected / App Routes */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/create-course" element={<CreateCoursePage />} />
+        <Route path="/my-courses" element={<MyCoursesPage />} />
         <Route path="/edit-course/:id" element={<EditCoursePage />} />
       </Routes>
     </>
