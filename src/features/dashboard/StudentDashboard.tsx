@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../layouts/DashboardLayout";
 import { useAppSelector } from "../../shared/hooks/redux";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +39,7 @@ const StudentDashboard = () => {
   const firstName = user.name.split(" ")[0];
 
   return (
-    <DashboardLayout>
+    <div className="py-8 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
 
         <div
@@ -222,7 +221,7 @@ const StudentDashboard = () => {
         </div>
 
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 
