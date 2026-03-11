@@ -27,9 +27,9 @@ const courseBuilderSlice = createSlice({
 
         updateField(
             state,
-            action: PayloadAction<{ field: keyof CourseBuilderState; value: any }>
+            action: PayloadAction<{ field: keyof CourseBuilderState; value: unknown }>
         ) {
-            (state as any)[action.payload.field] = action.payload.value
+            (state as Record<string, unknown>)[action.payload.field] = action.payload.value
         },
 
         updateFields(state, action: PayloadAction<Partial<CourseBuilderState>>) {

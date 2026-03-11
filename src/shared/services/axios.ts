@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import { getFriendlyErrorMessage } from '../error/friendlyErrorMessages';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -47,11 +48,13 @@ api.interceptors.response.use(
     }
 
     // Global Error Handling with Toasts
-    const message = error.response?.data?.message || error.message || "An unexpected error occurred";
     const statusCode = error.response?.status;
 
-    if (statusCode !== 401) {
-      toast.error(message);
+    const friendlyMessage = statusCode 
+  ? getFriendlyErrorMessage(statusCode) 
+  : "Check your internet connection and try again.";
+if (statusCode !== 401) {
+  toast.error(friendlyMessage);
     }
     if (statusCode === 401 && !originalRequest.url?.includes("/users/profile")) {
       toast.error("Session expired");

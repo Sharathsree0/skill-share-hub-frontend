@@ -9,6 +9,7 @@ import OverviewHero from "../components/Overview/OverviewHero"
 import OverviewStats from "../components/Overview/OverviewStats"
 import CurriculumOverview from "../components/Overview/CurriculumOverview"
 import HelpSection from "../components/Overview/HelpSection"
+import FullScreenLoader from "../../../shared/components/FullScreenLoader"
 
 const CourseOverviewPage = () => {
     const { id } = useParams<{ id: string }>()
@@ -26,11 +27,7 @@ const CourseOverviewPage = () => {
     }, [id, dispatch])
 
     if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#166534]"></div>
-            </div>
-        )
+        return <FullScreenLoader />
     }
 
     if (error) {
