@@ -20,6 +20,7 @@ export type TutorProfile = {
   ratingsAverage: number;
   reviewCount: number;
   earningsTotal: number;
+  createdCourses?: any[];
 };
 
 export type User = {
@@ -31,4 +32,6 @@ export type User = {
   isVerified: boolean;
   studentProfile?: StudentProfile;
   tutorProfile?: TutorProfile;
+  createdAt?: string;
+  updatedAt?: string;
 };

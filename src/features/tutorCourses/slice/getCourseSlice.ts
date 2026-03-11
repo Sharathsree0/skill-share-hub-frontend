@@ -37,11 +37,10 @@ const courseSlice = createSlice({
             })
             .addCase(fetchTutorCourses.fulfilled, (state, action) => {
                 state.loading = false
-                const { courses, totalCount, page, limit, totalPages } = action.payload;
-                state.courses = courses;
-                state.totalCount = totalCount;
+                const { courses, page,totalPages } = action.payload;
+                console.log(courses)
+                state.courses = action.payload;
                 state.page = page;
-                state.limit = limit;
                 state.totalPages = totalPages;
             })
             .addCase(fetchTutorCourses.rejected, (state, action) => {

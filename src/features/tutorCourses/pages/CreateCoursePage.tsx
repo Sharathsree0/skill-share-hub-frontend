@@ -6,6 +6,8 @@ import CourseBasicInfoStep from "../components/CreateCourse/CourseBasicInfoStep"
 import CourseCategoryStep from "../components/CreateCourse/CourseCategoryStep"
 import CoursePricingStep from "../components/CreateCourse/CoursePricingStep"
 import CoursePublishStep from "../components/CreateCourse/CoursePublishStep"
+import { Link } from "react-router-dom"
+import { ChevronRight } from "lucide-react"
 
 export default function CreateCoursePage() {
 
@@ -16,6 +18,11 @@ export default function CreateCoursePage() {
     return (
         <div className="bg-[#eff4f3] min-h-screen pb-20 pt-10 px-4 flex flex-col items-center font-sans">
             <div className="w-full max-w-4xl">
+                <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+                    <Link to="/my-courses" className="hover:text-[#166534] transition-colors">My Courses</Link>
+                    <ChevronRight size={14} />
+                    <span className="text-gray-900 font-medium truncate">Create Course</span>
+                </nav>
                 <CourseStepper step={step} />
 
                 <div className="mt-8">

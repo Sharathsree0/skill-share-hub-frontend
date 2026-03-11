@@ -1,16 +1,17 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "../../../shared/hooks/redux";
-import { setPage } from "../slice/courseSlice";
 
-export default function Pagination() {
-  const dispatch = useAppDispatch();
-  const { page, totalPages } = useAppSelector((state) => state.courses);
+interface PaginationProps {
+  page: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
+}
 
+export default function Pagination({ page, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      dispatch(setPage(newPage));
+      onPageChange(newPage);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -78,11 +79,10 @@ export default function Pagination() {
             <button
               key={p}
               onClick={() => handlePageChange(p)}
-              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
-                page === p
+              className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${page === p
                   ? "bg-green-600 text-white shadow-sm"
                   : "border border-gray-200 text-gray-600 hover:bg-gray-100"
-              }`}
+                }`}
             >
               {p}
             </button>

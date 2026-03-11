@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../shared/hooks/redux";
-import { fetchCourses } from "../slice/courseSlice";
+import { fetchCourses, setPage } from "../slice/courseSlice";
 import CourseCard from "../components/CourseCard";
 import CourseSearch from "../components/CourseSearch";
 import FilterSidebar from "../components/FilterSidebar";
@@ -10,7 +10,7 @@ import { BookOpen, SlidersHorizontal } from "lucide-react";
 
 export default function CoursesPage() {
   const dispatch = useAppDispatch();
-  const { list: courses, loading, error, filters, search, page } =
+  const { list: courses, loading, error, filters, search, page, totalPages } =
     useAppSelector((state) => state.courses);
 
   const [mobileFilters, setMobileFilters] = useState(false);
@@ -135,7 +135,11 @@ export default function CoursesPage() {
             {/* PAGINATION */}
             {!loading && courses.length > 0 && (
               <div className="mt-14">
-                <Pagination />
+                <Pagination
+                  page={page}
+                  totalPages={totalPages}
+                  onPageChange={(newPage) => dispatch(setPage(newPage))}
+                />
               </div>
             )}
 

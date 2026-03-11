@@ -42,9 +42,9 @@ export const submitCourse = createAsyncThunk(
                 toast.success("Course created successfully");
             }
             return data;
-        } catch (error: any) {
+        } catch (err: unknown) {
+            const error = err as Error & { response?: { data?: { message?: string } } };
             const errorMsg = error.response?.data?.message || error.message || "Failed to submit course";
-            toast.error(errorMsg);
             return rejectWithValue(errorMsg);
         }
     }
@@ -52,13 +52,13 @@ export const submitCourse = createAsyncThunk(
 
 export const fetchTutorCourses = createAsyncThunk(
     "course/fetch",
-    async ({ page, limit }: { page?: number, limit?: number } = {}, { rejectWithValue }) => {
+    async ({ page, limit, search, category, type }: { page?: number, limit?: number, search?: string, category?: string, type?: string } = {}, { rejectWithValue }) => {
         try {
-            const data = await getTutorCoursesApi(page, limit);
+            const data = await getTutorCoursesApi(page, limit, search, category, type);
             return data;
-        } catch (error: any) {
+        } catch (err: unknown) {
+            const error = err as Error & { response?: { data?: { message?: string } } };
             const errorMsg = error.response?.data?.message || error.message || "Failed to fetch courses";
-            toast.error(errorMsg);
             return rejectWithValue(errorMsg);
         }
     }
@@ -71,9 +71,9 @@ export const publishCourse = createAsyncThunk(
             const data = await publishCourseApi(courseId);
             toast.success("Course published successfully");
             return data;
-        } catch (error: any) {
+        } catch (err: unknown) {
+            const error = err as Error & { response?: { data?: { message?: string } } };
             const errorMsg = error.response?.data?.message || error.message || "Failed to publish course";
-            toast.error(errorMsg);
             return rejectWithValue(errorMsg);
         }
     }
@@ -90,11 +90,10 @@ export const fetchCourseById = createAsyncThunk(
                 return response.data;
             }
             const errorMsg = response.message || "Failed to fetch course details";
-            toast.error(errorMsg);
             return rejectWithValue(errorMsg);
-        } catch (error: any) {
+        } catch (err: unknown) {
+            const error = err as Error & { response?: { data?: { message?: string } } };
             const errorMsg = error.response?.data?.message || error.message || "An unexpected error occurred";
-            toast.error(errorMsg);
             return rejectWithValue(errorMsg);
         }
     }

@@ -18,8 +18,14 @@ export const updateCourseApi = async (id: string, courseData: FormData) => {
     return response.data
 }
 
-export const getTutorCoursesApi = async (page: number = 1, limit: number = 10) => {
-    const response = await api.get(`/courses/tutor?page=${page}&limit=${limit}`)
+export const getTutorCoursesApi = async (page?: number, limit?: number, search?: string, category?: string, type?: string) => {
+    let url = `/courses/tutor?page=${page || 1}&limit=${limit || 10}`;
+    if (search) url += `&q=${encodeURIComponent(search)}`;
+    if (category) url += `&c=${encodeURIComponent(category)}`;
+    if (type) url += `&type=${encodeURIComponent(type)}`;
+
+    const response = await api.get(url)
+    console.log(response.data.data)
     return response.data.data
 }
 

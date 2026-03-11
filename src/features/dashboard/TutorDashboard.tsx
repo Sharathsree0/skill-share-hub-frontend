@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../shared/hooks/redux";
 import { fetchTutorCourses } from "../tutorCourses/thunk/course.thunk";
 import { BookOpen, Users, Star, CreditCard, ChevronRight, Edit3, Eye, PlusCircle, Activity, LayoutDashboard, BarChart3, X } from "lucide-react";
+import FullScreenLoader from "../../shared/components/FullScreenLoader";
 
 const TutorDashboard = () => {
   const dispatch = useAppDispatch();
@@ -12,15 +13,16 @@ const TutorDashboard = () => {
   const [selectedCourse, setSelectedCourse] = useState<any | null>(null);
 
   useEffect(() => {
-    dispatch(fetchTutorCourses());
+    dispatch(fetchTutorCourses({ page: 1, limit: 10 }));
   }, [dispatch]);
 
   if (!user) return null;
+  if (loading) return <FullScreenLoader />;
 
-  const totalCourses = courses.length;
-  const totalEnrollments = courses.reduce((acc, course) => acc + (course.totalEnrollments || 0), 0);
-  const avgRating = courses.length
-    ? (courses.reduce((acc, course) => acc + (course.ratingsAverage || 0), 0) / courses.length).toFixed(1)
+  const totalCourses = courses?.length;
+  const totalEnrollments = courses?.reduce((acc, course) => acc + (course.totalEnrollments || 0), 0);
+  const avgRating = courses?.length
+    ? (courses?.reduce((acc, course) => acc + (course.ratingsAverage || 0), 0) / courses?.length).toFixed(1)
     : "0.0";
   const creditsEarned = user.tutorProfile?.totalCreditsEarned || (user as any)?.credits || 0;
 
@@ -67,7 +69,7 @@ const TutorDashboard = () => {
               </div>
               <h3 className="font-medium">Total Courses</h3>
             </div>
-            <p className="text-3xl font-bold text-gray-800">{loading ? "..." : totalCourses}</p>
+            <p className="text-3xl font-bold text-gray-800">{totalCourses}</p>
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
@@ -77,7 +79,7 @@ const TutorDashboard = () => {
               </div>
               <h3 className="font-medium">Total Enrollments</h3>
             </div>
-            <p className="text-3xl font-bold text-gray-800">{loading ? "..." : totalEnrollments}</p>
+            <p className="text-3xl font-bold text-gray-800">{totalEnrollments}</p>
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
@@ -87,7 +89,7 @@ const TutorDashboard = () => {
               </div>
               <h3 className="font-medium">Average Rating</h3>
             </div>
-            <p className="text-3xl font-bold text-gray-800">{loading ? "..." : avgRating}</p>
+            <p className="text-3xl font-bold text-gray-800">{avgRating}</p>
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
@@ -109,16 +111,12 @@ const TutorDashboard = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-800">My Courses</h2>
-                <Link to="/my-activity" className="text-[#145537] hover:underline text-sm font-medium flex items-center">
+                <Link to="/my-courses" className="text-[#145537] hover:underline text-sm font-medium flex items-center">
                   View All <ChevronRight size={16} />
                 </Link>
               </div>
 
-              {loading ? (
-                <div className="animate-pulse space-y-4">
-                  {[1, 2, 3].map(i => <div key={i} className="h-32 bg-gray-200 rounded-2xl w-full"></div>)}
-                </div>
-              ) : courses.length === 0 ? (
+              {courses?.length === 0 ? (
                 <div className="bg-white p-12 rounded-2xl shadow-sm border border-gray-100 text-center flex flex-col items-center">
                   <div className="w-16 h-16 bg-gray-50 text-gray-400 rounded-full flex items-center justify-center mb-4"><BookOpen size={24} /></div>
                   <h3 className="text-lg font-medium text-gray-800 mb-1">No courses yet</h3>
@@ -127,7 +125,7 @@ const TutorDashboard = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {courses.slice(0, 4).map((course) => (
+                  {courses?.slice(0, 4).map((course) => (
                     <div
                       key={course._id}
                       onClick={() => setSelectedCourse(course)}
@@ -177,7 +175,7 @@ const TutorDashboard = () => {
                   <span className="flex items-center gap-3 font-medium"><PlusCircle size={18} className="text-gray-400 group-hover:text-[#145537]" /> Create Course</span>
                   <ChevronRight size={16} className="text-gray-300 group-hover:text-[#145537]" />
                 </button>
-                <Link to="/my-activity" className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-100 hover:border-[#145537] hover:bg-green-50 text-gray-700 transition group">
+                <Link to="/my-courses" className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-100 hover:border-[#145537] hover:bg-green-50 text-gray-700 transition group">
                   <span className="flex items-center gap-3 font-medium"><BookOpen size={18} className="text-gray-400 group-hover:text-[#145537]" /> Manage Courses</span>
                   <ChevronRight size={16} className="text-gray-300 group-hover:text-[#145537]" />
                 </Link>
@@ -278,7 +276,7 @@ const TutorDashboard = () => {
                 <Edit3 size={18} /> Edit Course
               </Link>
               <Link
-                to={`/courses/${selectedCourse._id}`}
+                to={`/course-overview/${selectedCourse._id}`}
                 onClick={() => setSelectedCourse(null)}
                 className="flex-1 flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 rounded-lg transition"
               >
