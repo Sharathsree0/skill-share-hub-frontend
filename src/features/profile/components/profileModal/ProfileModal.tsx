@@ -104,7 +104,8 @@ export default function ProfileModal({
     if (!file) return
     const url = URL.createObjectURL(file)
     setAvatarPreview(url)
-    setValue("avatarUrl", url)
+    setValue("avatarFile", file) // Set the actual file
+    setValue("avatarUrl", "")    // Clear manual URL if file is uploaded
   }
 
   const onFormSubmit = async (formData: ProfileFormData) => {
@@ -114,7 +115,12 @@ export default function ProfileModal({
       // Transform flat form data to backend nested structure
       const payload: UpdateProfilePayload = {
         name: formData.name,
-        avatarUrl: formData.avatarUrl,
+      }
+
+      if (formData.avatarFile) {
+        payload.avatarFile = formData.avatarFile
+      } else if (formData.avatarUrl) {
+        payload.avatarUrl = formData.avatarUrl
       }
 
       if (role === "student") {
