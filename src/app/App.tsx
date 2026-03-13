@@ -14,9 +14,9 @@ import MyCoursesPage from "../features/tutorCourses/pages/MyCoursesPage";
 import EditCoursePage from "../features/tutorCourses/pages/EditCoursePage";
 import CourseOverviewPage from "../features/tutorCourses/pages/CourseOverviewPage";
 import CoursesPage from "../features/courses/pages/CoursesPage";
-import TutorProfilePage from "../features/profile/tutor/pages/TutorProfilePage";
-import EditTutorProfilePage from "../features/profile/tutor/pages/EditTutorProfilePage";
+import TutorProfilePage from "../features/profile/pages/TutorProfilePage";
 import MainLayout from "../layouts/MainLayout";
+import ProtectedRoute from "../routes/ProtectedRoute";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -35,12 +35,24 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<CoursesPage />} />
 
-          {/* Protected / App Routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/create-course" element={<CreateCoursePage />} />
-          <Route path="/my-courses" element={<MyCoursesPage />} />
-          <Route path="/edit-course/:id" element={<EditCoursePage />} />
+          {/* Any Authenticated User */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<TutorProfilePage />} />
+          </Route>
+
+          {/* Tutor & Premium Tutor Only */}
+          <Route element={<ProtectedRoute allowedRoles={["tutor", "premiumTutor"]} />}>
+            <Route path="/create-course" element={<CreateCoursePage />} />
+            <Route path="/my-courses" element={<MyCoursesPage />} />
+            <Route path="/edit-course/:id" element={<EditCoursePage />} />
+            <Route path="/course-overview/:id" element={<CourseOverviewPage />} />
+          </Route>
+
+          {/* Admin Only */}
+          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin" element={<Dashboard />} />
+          </Route>
         </Route>
 
         {/* Auth Routes */}
@@ -49,17 +61,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
-        </Route>
-
-        {/* Protected / App Routes */}
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create-course" element={<CreateCoursePage />} />
-          <Route path="/my-courses" element={<MyCoursesPage />} />
-          <Route path="/course-overview/:id" element={<CourseOverviewPage />} />
-          <Route path="/edit-course/:id" element={<EditCoursePage />} />
-          <Route path="/profile" element={<TutorProfilePage />} />
-          <Route path="/profile/edit" element={<EditTutorProfilePage />} />
         </Route>
       </Routes>
     </>

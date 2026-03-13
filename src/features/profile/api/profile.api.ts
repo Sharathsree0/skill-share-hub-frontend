@@ -1,8 +1,13 @@
 import api from "../../../shared/services/axios";
 
-export interface UpdateTutorProfileDto {
+export interface UpdateUserProfileDto {
     name?: string;
     avatarUrl?: string;
+    studentProfile?: {
+        bio?: string;
+        skills?: string[];
+        interests?: string[];
+    };
     tutorProfile?: {
         bio?: string;
         skills?: string[];
@@ -16,7 +21,7 @@ export const getProfie = async () => {
     return response.data.data; // unwrap the nested .data
 };
 
-export const updateTutorProfileApi = async (data: UpdateTutorProfileDto) => {
+export const updateUserProfileApi = async (data: UpdateUserProfileDto) => {
     const response = await api.put("/users/profile", data);
     return response.data.data; // unwrap the nested .data
 };
