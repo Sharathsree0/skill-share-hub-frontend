@@ -14,11 +14,13 @@ import MyCoursesPage from "../features/tutorCourses/pages/MyCoursesPage";
 import EditCoursePage from "../features/tutorCourses/pages/EditCoursePage";
 import CourseOverviewPage from "../features/tutorCourses/pages/CourseOverviewPage";
 import CoursesPage from "../features/courses/pages/CoursesPage";
+import CourseDetailsPage from "../features/courses/pages/CourseDetailsPage";
 import TutorProfilePage from "../features/profile/tutor/pages/TutorProfilePage";
 import EditTutorProfilePage from "../features/profile/tutor/pages/EditTutorProfilePage";
 import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "../routes/ProtectedRoute";
 import Wallet from "../features/wallet/Wallet";
+import MyActivity from "../features/courses/pages/MyActivity";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -36,6 +38,7 @@ function App() {
           {/* Public App Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseDetailsPage />} />
 
           {/* Protected / App Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
@@ -60,6 +63,7 @@ function App() {
         {/* Protected / App Routes */}
         <Route path="/" element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/my-activity" element={<MyActivity />} />
           <Route path="/create-course" element={<CreateCoursePage />} />
           <Route path="/my-courses" element={<MyCoursesPage />} />
           <Route path="/course-overview/:id" element={<CourseOverviewPage />} />
