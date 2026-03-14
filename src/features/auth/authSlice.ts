@@ -3,6 +3,7 @@ import api from "../../shared/services/axios";
 import type { AppDispatch } from "../../store/store";
 import handleError from "../../shared/services/handleError";
 import type { User } from "../../shared/types/user.Type";
+import { switchRole } from "./authThunk";
 
 interface UserState {
   user: User | null;
@@ -34,23 +35,28 @@ const authSlice = createSlice({
     setUserLogout(state) {
       state.user = null;
     },
-    switchRole(state, action: { payload: User['role'] }) {
-      if (state.user) {
-        state.user.role = action.payload;
-        
-        // If switching to tutor and no tutor profile exists, mark as incomplete
-        if ((action.payload === 'tutor' || action.payload === 'premiumTutor') && 
-            (!state.user.tutorProfile || !state.user.tutorProfile.bio)) {
-          state.user.isProfileCompleted = false;
-        }
-        
-        // If switching back to student and bio is missing, mark as incomplete
-        if (action.payload === 'student' && !state.user.studentProfile?.bio) {
-          state.user.isProfileCompleted = false;
-        }
-      }
-    },
   },
+  extraReducers: (builder) => {
+  builder
+
+    .addCase(switchRole.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+
+    .addCase(switchRole.fulfilled, (state, action) => {
+      state.loading = false;
+
+      if (state.user) {
+        state.user = action.payload.data;
+      }
+    })
+
+    .addCase(switchRole.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Role update failed";
+    });
+}
 });
 
 export const checkAuth = (navigate?: (role: User['role']) => void) => async (dispatch: AppDispatch) => {
@@ -73,7 +79,6 @@ export const {
   fetchFail,
   fetchSuccess,
   fetchStart,
-  switchRole,
 } = authSlice.actions;
 
 export default authSlice.reducer;
