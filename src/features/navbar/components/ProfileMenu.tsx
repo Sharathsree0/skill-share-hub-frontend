@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Settings, LogOut } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../shared/hooks/redux";
-import { setUserLogout, switchRole } from "../../auth/authSlice";
+import { setUserLogout } from "../../auth/authSlice";
+import { switchRole } from "../../auth/authThunk";
 
 export default function ProfileMenu() {
     const dispatch = useAppDispatch();
@@ -14,6 +15,11 @@ export default function ProfileMenu() {
 
     const handleLogout = () => {
         dispatch(setUserLogout());
+    };
+    const handleSwitchRole = (role: 'student' | 'tutor') => {
+        dispatch(switchRole({ role }));
+        navigate('/dashboard');
+        setIsOpen(false);
     };
 
     // Close menu when clicking outside
@@ -80,9 +86,7 @@ export default function ProfileMenu() {
                     {user?.role === 'student' && (
                         <button
                             onClick={() => {
-                                dispatch(switchRole('tutor'));
-                                navigate('/dashboard');
-                                setIsOpen(false);
+                                handleSwitchRole('tutor');
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition focus:outline-none focus:bg-gray-50 text-left"
                             role="menuitem"
@@ -93,9 +97,7 @@ export default function ProfileMenu() {
                     {(user?.role === 'tutor' || user?.role === 'premiumTutor') && (
                         <button
                             onClick={() => {
-                                dispatch(switchRole('student'));
-                                navigate('/dashboard');
-                                setIsOpen(false);
+                                handleSwitchRole('student');
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition focus:outline-none focus:bg-gray-50 text-left"
                             role="menuitem"
