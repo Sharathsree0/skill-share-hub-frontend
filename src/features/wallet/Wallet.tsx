@@ -1,6 +1,4 @@
-import Footer from "../../shared/components/Footer";
 import { useAppSelector } from "../../shared/hooks/redux";
-import Navbar from "../navbar/Navbar";
 import { WalletBalance, WalletTransaction, BuyCredits, WithdrawCredits } from './components/index';
 
 export default function Wallet() {
@@ -8,9 +6,8 @@ export default function Wallet() {
 
   return (
     <div className="bg-[#fcfdfd]">
-      <Navbar />
-      
-      <header className="bg-white border-b border-gray-100 pt-24 pb-10">
+
+      <header className="bg-white border-b border-gray-100 py-6">
         <div className="max-w-7xl mx-auto px-6 sm:px-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -28,12 +25,12 @@ export default function Wallet() {
 
       <main className="max-w-7xl mx-auto px-6 sm:px-10 mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
+
           <div className="lg:col-span-8 space-y-10">
             <section>
               <WalletBalance />
             </section>
-            
+
             <section className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
               <WalletTransaction />
             </section>
@@ -48,8 +45,6 @@ export default function Wallet() {
 
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
