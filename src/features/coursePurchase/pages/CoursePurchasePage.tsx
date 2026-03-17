@@ -122,7 +122,7 @@ const CoursePurchasePage: React.FC = () => {
       try {
         await dispatch(purchaseWithCreditsOnly(courseId)).unwrap();
         toast.success("Successfully enrolled using credits!");
-        navigate(`/course-overview/${courseId}`);
+        navigate(`/my-activity/${courseId}`);
       } catch (err: any) {
         toast.error(err || "Failed to purchase with credits.");
       }

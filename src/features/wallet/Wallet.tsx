@@ -4,12 +4,12 @@ import handleError from "../../shared/services/handleError";
 import { WalletBalance, WalletTransaction, BuyCredits, WithdrawCredits } from './components/index';
 import api from "../../shared/services/axios";
 import FullScreenLoader from "../../shared/components/FullScreenLoader";
-import type { Wallet } from "./wallet.types";
+import type { Wallet as WalletType } from "./wallet.types";
 
 
 export default function Wallet() {
   const { user } = useAppSelector(state => state.user);
-  const [data,setData] = useState<Wallet | null>(null);
+  const [data,setData] = useState<WalletType | null>(null);
 
   const fetchWallet = async () => {
     try{
