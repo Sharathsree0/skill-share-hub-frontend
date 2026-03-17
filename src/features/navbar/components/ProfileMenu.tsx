@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Settings, LogOut } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../../shared/hooks/redux";
-import { switchRole, logoutUser } from "../../auth/authThunk";
+import { setUserLogout } from "../../auth/authSlice";
+import { switchRole } from "../../auth/authThunk";
+import ConfirmDialog from "../../../shared/components/ConfirmDialog";
 import LogoutModal from "./LogoutModal";
 
 export default function ProfileMenu() {
@@ -10,6 +12,13 @@ export default function ProfileMenu() {
     const navigate = useNavigate();
     const user = useAppSelector((state) => state.user.user);
     const [isOpen, setIsOpen] = useState(false);
+    const [confirmRoleSwitch, setConfirmRoleSwitch] = useState<{
+        isOpen: boolean;
+        targetRole: 'student' | 'tutor' | null;
+    }>({
+        isOpen: false,
+        targetRole: null,
+    });
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -23,6 +32,17 @@ export default function ProfileMenu() {
         dispatch(switchRole({ role }));
         navigate('/dashboard');
         setIsOpen(false);
+    };
+
+    const triggerRoleSwitch = (role: 'student' | 'tutor') => {
+        setConfirmRoleSwitch({ isOpen: true, targetRole: role });
+        setIsOpen(false); // Close the menu when dialog opens
+    };
+
+    const handleConfirmSwitch = () => {
+        if (confirmRoleSwitch.targetRole) {
+            handleSwitchRole(confirmRoleSwitch.targetRole);
+        }
     };
 
     // Close menu when clicking outside
@@ -99,7 +119,7 @@ export default function ProfileMenu() {
                     {user?.role === 'student' && (
                         <button
                             onClick={() => {
-                                handleSwitchRole('tutor');
+                                triggerRoleSwitch('tutor');
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition focus:outline-none focus:bg-gray-50 text-left"
                             role="menuitem"
@@ -110,7 +130,7 @@ export default function ProfileMenu() {
                     {(user?.role === 'tutor' || user?.role === 'premiumTutor') && (
                         <button
                             onClick={() => {
-                                handleSwitchRole('student');
+                                triggerRoleSwitch('student');
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition focus:outline-none focus:bg-gray-50 text-left"
                             role="menuitem"
@@ -132,6 +152,13 @@ export default function ProfileMenu() {
                 </div>
             )}
 
+            <ConfirmDialog
+                isOpen={confirmRoleSwitch.isOpen}
+                onClose={() => setConfirmRoleSwitch({ ...confirmRoleSwitch, isOpen: false })}
+                onConfirm={handleConfirmSwitch}
+                title="Switch Account Role?"
+                description={`Are you sure you want to switch to the ${confirmRoleSwitch.targetRole || 'selected'} dashboard? You can switch back at any time.`}
+                confirmText={`Switch to ${confrmRoleSwitch.targetRole === 'tutor' ? 'Tutor' : 'Student'}`}
             <LogoutModal 
                 isOpen={showLogoutModal}
                 onClose={() => setShowLogoutModal(false)}
