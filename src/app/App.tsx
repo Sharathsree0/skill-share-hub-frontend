@@ -46,7 +46,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<TutorProfilePage />} />
             <Route path="/student-profile" element={<StudentProfilePage />} />
-            <Route path="/course-content/:id" element={<Content />} />
+            <Route path="/my-activity/:id" element={<Content />} />
             <Route path="/wallet" element={<Wallet />} />
           </Route>
 
