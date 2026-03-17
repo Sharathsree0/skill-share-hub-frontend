@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import Footer from "../../shared/components/Footer";
-import { useAppSelector } from "../../shared/hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
 import handleError from "../../shared/services/handleError";
 import Navbar from "../navbar/Navbar";
 import { WalletBalance, WalletTransaction, BuyCredits, WithdrawCredits } from './components/index';
 import api from "../../shared/services/axios";
 import FullScreenLoader from "../../shared/components/FullScreenLoader";
 import type { Wallet } from "./wallet.types";
+import { fetchWalletBalance } from "./walletSlice";
 
 
 export default function Wallet() {
   const { user } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
   const [data,setData] = useState<Wallet | null>(null);
 
   const fetchWallet = async () => {
@@ -18,6 +20,7 @@ export default function Wallet() {
 
       const {data:walletData} = await api.get('/wallet');
       setData(walletData.data);
+      dispatch(fetchWalletBalance());
 
     }catch(error){
       handleError(error)

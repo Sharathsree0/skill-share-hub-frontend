@@ -10,6 +10,7 @@ import {
   verifyRazorpayPayment,
   purchaseWithCreditsOnly
 } from "../redux/purchaseSlice";
+import { fetchWalletBalance } from "../../wallet/walletSlice";
 import { courseService } from "../../courses/services/courseService";
 import { getProfie } from "../../profile/api/profile.api";
 import CourseSummaryCard from "../components/CourseSummaryCard";
@@ -94,6 +95,7 @@ const CoursePurchasePage: React.FC = () => {
             razorpay_signature: response.razorpay_signature
           })).unwrap();
           
+          dispatch(fetchWalletBalance());
           toast.success("Payment successful! You are now enrolled.");
           navigate(`/course-overview/${courseId}`);
         } catch (err: any) {
@@ -121,6 +123,7 @@ const CoursePurchasePage: React.FC = () => {
       // 100% Credit Only Purchase
       try {
         await dispatch(purchaseWithCreditsOnly(courseId)).unwrap();
+        dispatch(fetchWalletBalance());
         toast.success("Successfully enrolled using credits!");
         navigate(`/course-overview/${courseId}`);
       } catch (err: any) {
