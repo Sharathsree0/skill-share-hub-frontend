@@ -3,12 +3,13 @@ import { useAppDispatch, useAppSelector } from "../../../shared/hooks/redux";
 import SavedCourseCard from "../components/savedCourses/savedCourseCard";
 import CourseSkeleton from "../components/CourseSkeleton";
 import { BookmarkX } from "lucide-react";
-import { fetchSavedCourses, unsaveCourse } from "../slice/savedCourseSlice";
+import { fetchSavedCourses, toggleSaveCourse } from "../slice/savedCourseSlice";
 
 export default function SavedCoursesPage() {
   const dispatch = useAppDispatch();
   const { list: courses, loading, error } =
     useAppSelector((state) => state.savedCourses);
+
 
   useEffect(() => {
     dispatch(fetchSavedCourses());
@@ -16,7 +17,7 @@ export default function SavedCoursesPage() {
 
   const handleUnsave = useCallback(
     async (courseId: string) => {
-      await dispatch(unsaveCourse(courseId)).unwrap();
+      await dispatch(toggleSaveCourse(courseId)).unwrap();
     },
     [dispatch]
   );

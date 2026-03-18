@@ -31,12 +31,13 @@ export const fetchSavedCourses = createAsyncThunk(
 
 
 // Add to saved
-export const saveCourse = createAsyncThunk(
-  'savedCourses/saveCourse',
+export const toggleSaveCourse = createAsyncThunk(
+  'savedCourses/toggleSaveCourse',
   async (courseId: string, { rejectWithValue }) => {
     try {
-      await courseService.saveCourse(courseId);
-      return courseId;
+      const response = await courseService.toggleSaveCourse(courseId);
+      // Make sure your API returns { isSaved: boolean }
+      return { courseId, isSaved: response.data.isSaved as boolean };
     } catch (error) {
       return rejectWithValue(handleError(error));
     }
@@ -45,17 +46,7 @@ export const saveCourse = createAsyncThunk(
 
 
 // Remove from saved
-export const unsaveCourse = createAsyncThunk(
-  'savedCourses/unsaveCourse',
-  async (courseId: string, { rejectWithValue }) => {
-    try {
-      await courseService.unsaveCourse(courseId);
-      return courseId;
-    } catch (error) {
-      return rejectWithValue(handleError(error));
-    }
-  }
-);
+
 
 
 const savedCoursesSlice = createSlice({
@@ -81,18 +72,14 @@ const savedCoursesSlice = createSlice({
       })
 
 
-      //  Save course (optimistic update)
-      .addCase(saveCourse.fulfilled, (state, action) => {
-        // optional: you can refetch instead
-      })
-
-
-      //  Unsave course (remove locally)
-      .addCase(unsaveCourse.fulfilled, (state, action) => {
-        state.list = state.list.filter(
-          (course) => course._id !== action.payload
-        );
-      });
+   
+    .addCase(toggleSaveCourse.fulfilled, (state, action) => {
+  const { courseId, isSaved } = action.payload;
+  if (!isSaved) {
+    // Only remove from list when unsaving
+    state.list = state.list.filter((course) => course._id !== courseId);
+  }
+});
   },
 });
 

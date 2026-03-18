@@ -35,14 +35,9 @@ export const courseService = {
     return response.data;
   },
 
-  saveCourse: async (courseId: string): Promise<{ success: boolean }> => {
+  toggleSaveCourse: async (courseId: string): Promise<{ success: boolean }> => {
     const response = await api.post(`/users/saved`, { courseId });
     return response.data;
   },
-
-  unsaveCourse: async (courseId: string): Promise<{ success: boolean }> => {
-    const response = await api.delete(`/users/saved`, { data: { courseId } });
-    return response.data;
-  }
 
 };

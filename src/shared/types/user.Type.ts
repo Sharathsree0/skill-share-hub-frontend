@@ -35,4 +35,5 @@ export type User = {
   tutorProfile?: TutorProfile;
   createdAt?: string;
   updatedAt?: string;
+  savedCourses?: string[];
 };
