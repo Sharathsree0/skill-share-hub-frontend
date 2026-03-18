@@ -4,6 +4,7 @@ import type { AppDispatch } from "../../store/store";
 import handleError from "../../shared/services/handleError";
 import type { User } from "../../shared/types/user.Type";
 import { switchRole, logoutUser } from "./authThunk";
+import { toggleSaveCourse } from "../courses/slice/savedCourseSlice";
 
 interface UserState {
   user: User | null;
@@ -71,6 +72,23 @@ const authSlice = createSlice({
       state.user = null;
       state.login = null;
     });
+
+    builder.addCase(toggleSaveCourse.fulfilled, (state, action) => {
+  const { courseId, isSaved } = action.payload;
+  if (!state.user) return;
+
+  if (isSaved) {
+    // Add courseId if not already present
+    if (!state.user.savedCourses?.includes(courseId)) {
+      state.user.savedCourses?.push(courseId);
+    }
+  } else {
+    // Remove courseId
+    state.user.savedCourses = state.user.savedCourses?.filter(
+      (id) => id !== courseId
+    );
+  }
+});
 }
 });
 
