@@ -107,7 +107,7 @@ const OverviewHero = ({ course }: OverviewHeroProps) => {
                                 <p className={`text-gray-500 text-sm leading-relaxed ${expanded ? "" : "line-clamp-3"}`}>
                                     {course.description}
                                 </p>
-                                {course.description.length > 100 && (
+                                {course.description?.length > 100 && (
                                     <button
                                         onClick={() => setExpanded(!expanded)}
                                         className="mt-2 text-[12px] font-semibold text-gray-400 hover:text-gray-600 transition-colors tracking-wide"
