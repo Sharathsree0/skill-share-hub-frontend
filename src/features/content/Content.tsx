@@ -37,8 +37,9 @@ export default function Content() {
         try{
             setLoading(true)
             const {data:updatedEnrollment} = await api.patch(`/enrollments/${id}/mark`,{contentId : content?._id});
+            console.log(updatedEnrollment);
             if(updatedEnrollment.success){
-                setData(updatedEnrollment.data)
+                setData((pre:any) => ({...pre,enrollment :updatedEnrollment.data }));
             }
         }catch(error){
             handleError(error);
@@ -65,7 +66,7 @@ export default function Content() {
                                 videoUrl={content?.contentUrl}
                                 isCompleted={
                                     content._id &&
-                                    data.enrollment.completedContent.includes(content._id)
+                                    data.enrollment?.completedContent?.includes(content?._id)
                                 }
                                 handleComplete={handleComplete}
                                 loading={loading}

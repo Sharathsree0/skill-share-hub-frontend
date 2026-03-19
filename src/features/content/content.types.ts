@@ -31,11 +31,11 @@ export type CourseType = {
   courseLevel : "beginner"| "intermediate"| "expert";
   courseSkills : string[];
   creditCost : number;
-  ratingsAverage : number;
+  ratingsAverage ?: number;
   status : string;
   thumbnailUrl : string;
   totalEnrollments : number;
   certified : boolean;
-  courseDuration : number;
+  courseDuration ?: number;
   courseResources : string[]
 }

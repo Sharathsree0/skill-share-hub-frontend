@@ -215,7 +215,7 @@ function CourseCard({ course }: { course: Enrollment }) {
           <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-1.5 bg-emerald-500 rounded-full transition-all duration-500"
-              style={{ width: `${course.progress.toFixed(0)}%` }}
+              style={{ width: `${course.progress?.toFixed(0) || 0}%` }}
             />
           </div>
         </div>
