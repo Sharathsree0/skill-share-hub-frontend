@@ -61,7 +61,7 @@ export default function CreateCoursePage() {
 
                         {/* Step pills — right side */}
                         <div className="ml-auto flex items-center gap-1.5">
-                            {stepMeta.map((s, i) => {
+                            {stepMeta.map((_, i) => {
                                 const idx = i + 1
                                 const done    = idx < step
                                 const current = idx === step
