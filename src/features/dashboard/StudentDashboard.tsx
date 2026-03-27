@@ -102,7 +102,7 @@ const StudentDashboard = () => {
   }));
 
   /* animation helper */
-  const fade = (delay = 0) =>
+  const fade = () =>
     `transition-all duration-700 ease-out ${
       vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
     }`;
@@ -157,7 +157,7 @@ const StudentDashboard = () => {
           className={`grid grid-cols-2 md:grid-cols-4 gap-4 ${fade()}`}
           style={{ transitionDelay: "80ms" }}
         >
-          {stats.map((s, i) => (
+          {stats.map((s,) => (
             <div
               key={s.label}
               className="bg-white border border-gray-100 rounded-2xl px-5 py-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
@@ -232,7 +232,7 @@ const StudentDashboard = () => {
 
                       <button
                         className="mt-4 w-full py-2.5 rounded-xl border-2 border-green-700 text-green-700 text-sm font-bold hover:bg-green-700 hover:text-white active:scale-95 transition-all duration-150"
-                        onClick={() => navigate(`/courses/${r.courseId._id}`)}
+                        onClick={() => navigate(`/my-activity/${r.courseId._id}`)}
                       >
                         ▶ Resume
                       </button>
@@ -307,17 +307,7 @@ const StudentDashboard = () => {
                     alt={r.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <span
-                    className={`absolute top-2 right-2 text-xs font-bold px-2 py-0.5 rounded-lg ${
-                      r.free
-                        ? "bg-green-100 text-green-700"
-                        : "bg-amber-100 text-amber-700"
-                    }`}
-                  >
-                    {r.free ? "Free" : "Premium"}
-                  </span>
                 </div>
-
                 <div className="p-3.5 flex flex-col flex-1">
                   <span className="text-xs text-gray-400 uppercase font-bold tracking-wide mb-1">
                     {r.tag}
