@@ -15,7 +15,7 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
     const chartData = data.map((course, index) => ({
         ...course,
         shortTitle:
-            course.title?.length > 15 // Reduced length for smaller size
+            course.title?.length > 15 
                 ? course.title.substring(0, 15) + '...'
                 : course.title || 'Unknown',
         score: 100 - index * 15,
