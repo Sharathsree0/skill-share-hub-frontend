@@ -96,10 +96,42 @@ const CourseHero: React.FC<CourseHeroProps> = ({ course }) => {
               </span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight tracking-tight mb-4 lg:mb-5">
-              {course.title || 'Untitled Course'}
-            </h1>
+            {/* Title & Top Actions Row */}
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4 lg:mb-5">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight tracking-tight">
+                {course.title || 'Untitled Course'}
+              </h1>
+              
+              <div className="flex items-center gap-2 shrink-0 sm:pt-1 ml-auto sm:ml-0">
+                {/* Save / Unsave toggle */}
+                <button
+                  onClick={handleToggleSave}
+                  disabled={saving}
+                  title={isSaved ? 'Remove from saved' : 'Save course'}
+                  className={`
+                    p-2.5 rounded-lg border shadow-sm transition-all duration-300
+                    disabled:opacity-60 disabled:cursor-not-allowed
+                    ${isSaved
+                      ? 'text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200'
+                      : 'text-gray-500 bg-white border-gray-200 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200'
+                    }
+                  `}
+                >
+                  {isSaved
+                    ? <BookmarkCheck className="w-5 h-5" />
+                    : <BookmarkPlus className="w-5 h-5" />
+                  }
+                </button>
+
+                <button 
+                  onClick={handleShare}
+                  title="Share course"
+                  className="p-2.5 text-gray-500 hover:text-emerald-700 bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-lg shadow-sm transition-colors duration-300"
+                >
+                  <Share2 className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
 
             {/* Tutor + Rating */}
             <div className="flex flex-wrap items-center gap-5 text-sm text-gray-600 mb-6 lg:mb-8">
@@ -171,36 +203,6 @@ const CourseHero: React.FC<CourseHeroProps> = ({ course }) => {
                     isEnrolled ? "Open Course" : "Enroll Now"
                   )}
                 </button>
-
-
-                {/* Save / Unsave toggle */}
-                <button
-                  onClick={handleToggleSave}
-                  disabled={saving}
-                  title={isSaved ? 'Remove from saved' : 'Save course'}
-                  className={`
-                    p-3 rounded-lg border shadow-sm transition-all duration-300
-                    disabled:opacity-60 disabled:cursor-not-allowed
-                    ${isSaved
-                      ? 'text-emerald-700 bg-emerald-50 border-emerald-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200'
-                      : 'text-gray-500 bg-white border-gray-200 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200'
-                    }
-                  `}
-                >
-                  {isSaved
-                    ? <BookmarkCheck className="w-5 h-5" />
-                    : <BookmarkPlus className="w-5 h-5" />
-                  }
-                </button>
-
-                <button 
-                  onClick={handleShare}
-                  title="Share course"
-                  className="p-3 text-gray-500 hover:text-emerald-700 bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-lg shadow-sm transition-colors duration-300"
-                >
-                  <Share2 className="w-5 h-5" />
-                </button>
-
               </div>
 
             </div>
