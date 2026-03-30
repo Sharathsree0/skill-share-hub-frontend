@@ -1,7 +1,5 @@
-// src/features/dashboard/dashboard.types.ts
 import type { LucideIcon } from 'lucide-react';
 
-// --- AdminStats Types ---
 export interface StatItem {
   label: string;
   value: number | string;
@@ -41,7 +39,6 @@ export interface EnrollmentChartProps {
 }
 
 
-// --- CourseChart Types ---
 export interface TopCourseData {
   title: string;
   tutorName: string;
