@@ -9,17 +9,17 @@ import {
 } from 'lucide-react';
 
 const links = [
-  { name: 'Dashboard',   path: '/admin',             icon: LayoutDashboard },
-  { name: 'Users',       path: '/admin/tutors',       icon: Users },
-  { name: 'Courses',     path: '/admin/courses',      icon: BookOpen },
-  { name: 'Enrollments', path: '/admin/enrollments',  icon: GraduationCap },
-  { name: 'Settings',    path: '/admin/settings',     icon: Settings },
+  { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+  { name: 'Users', path: '/admin/users', icon: Users }, // updated path
+  { name: 'Courses', path: '/admin/courses', icon: BookOpen },
+  { name: 'Enrollments', path: '/admin/enrollments', icon: GraduationCap },
+  { name: 'Premium Applications', path: '/admin/applications', icon: Users }, // new feature
+  { name: 'Settings', path: '/admin/settings', icon: Settings },
 ];
 
 const AdminSidebar = () => {
   return (
     <aside className="group fixed top-0 left-0 h-screen w-[60px] hover:w-56 bg-[#0d0f12] border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out z-50 overflow-hidden">
-
       {/* Logo */}
       <div className="flex items-center h-16 border-b border-gray-800 px-4 shrink-0">
         <div className="flex items-center gap-3">

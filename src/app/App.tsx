@@ -26,12 +26,15 @@ import Content from "../features/content/Content";
 import CoursePurchasePage from "../features/coursePurchase/pages/CoursePurchasePage";
 import SavedCoursesPage from "../features/courses/pages/savedCourses";
 import TutorList from "../features/adminDashboard/TutorList";
+import PremiumTutorApplicationsList from "../features/adminPremiumTutor/pages/ApplicationsList";
+import ApplicationDetailsPage from "../features/adminPremiumTutor/pages/ApplicationDetails";
+import PremiumTutorApplication from "../features/premiumTutorApplication/PremiumTutorApplication";
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth(() => { }));
+    dispatch(checkAuth(() => {}));
   }, [dispatch]);
 
   return (
@@ -44,9 +47,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<CourseDetailsPage />} />
-          
+
           <Route element={<ProtectedRoute />}>
-              <Route path="/courses/:id/purchase" element={<CoursePurchasePage />} />
+            <Route path="/courses/:id/purchase" element={<CoursePurchasePage />} />
           </Route>
 
           {/* Any Authenticated User */}
@@ -65,8 +68,8 @@ function App() {
             <Route path="/my-courses" element={<MyCoursesPage />} />
             <Route path="/edit-course/:id" element={<EditCoursePage />} />
             <Route path="/course-overview/:id" element={<CourseOverviewPage />} />
+            <Route path="/apply-premium" element={<PremiumTutorApplication />} />
           </Route>
-
         </Route>
 
         {/* Auth Routes */}
@@ -82,6 +85,8 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/admin/tutors" element={<TutorList />} />
+            <Route path="/admin/applications" element={<PremiumTutorApplicationsList />} />
+            <Route path="/admin/applications/:id" element={<ApplicationDetailsPage />} />
           </Route>
         </Route>
 

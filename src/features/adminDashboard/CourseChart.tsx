@@ -14,7 +14,10 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
 
   const chartData = data.map((course, index) => ({
     ...course,
-    shortTitle: course.title?.length > 14 ? course.title.substring(0, 14) + '…' : course.title || 'Unknown',
+    shortTitle:
+      course.title?.length > 15
+        ? course.title.substring(0, 15) + '...'
+        : course.title || 'Unknown',
     score: 100 - index * 15,
   }));
 
@@ -26,7 +29,9 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
           <p className="text-xs font-semibold text-white mb-1.5 leading-tight">{d.title}</p>
           <div className="border-t border-gray-800 pt-1.5 flex justify-between items-center">
             <span className="text-[10px] text-gray-500 uppercase tracking-wide">Tutor</span>
-            <span className="text-[11px] font-medium text-blue-400 truncate ml-2">{d.tutorName || 'Unknown'}</span>
+            <span className="text-[11px] font-medium text-blue-400 truncate ml-2">
+              {d.tutorName || 'Unknown'}
+            </span>
           </div>
         </div>
       );
@@ -36,7 +41,6 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
 
   return (
     <div className="bg-[#13161b] p-5 rounded-xl border border-gray-800 w-full overflow-visible">
-
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <div>
@@ -68,7 +72,11 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }} layout="vertical">
+            <BarChart
+              data={chartData}
+              margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
+              layout="vertical"
+            >
               <XAxis type="number" domain={[0, 100]} hide />
               <YAxis
                 type="category"
@@ -86,7 +94,11 @@ export default function CourseChart({ data = [], onFilterChange }: CourseChartPr
               />
               <Bar dataKey="score" radius={[0, 4, 4, 0]} barSize={14}>
                 {chartData.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} opacity={0.85} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                    opacity={0.85}
+                  />
                 ))}
               </Bar>
             </BarChart>

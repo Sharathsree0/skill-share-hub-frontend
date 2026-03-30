@@ -43,7 +43,7 @@ export default function AdminDashboard() {
 
   if(!dashboardData)return <FullScreenLoader />
 
-  const { stats, enrollmentChart, topCourses, recentActivity } = dashboardData;
+  const { stats, enrollmentChart, topCourses, recentActivity , earnings } = dashboardData;
   const hasMoreActivity = recentActivity?.length === activityLimit;
 
   return (
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
             />
           </div>
           <div className="lg:col-span-1 h-full">
-            <AdminEarnings />
+            <AdminEarnings earnings={earnings} />
           </div>
         </div>
 
