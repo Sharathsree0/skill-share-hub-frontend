@@ -23,7 +23,7 @@ export default function AdminEarnings({ earnings }: { earnings: any }) {
     {
       id: 2,
       label: 'Platform Fees',
-      amount: formatCurrency(earnings.feeEarnings),
+      amount: formatCurrency(earnings?.feeEarnings),
       percentage: '+5.2%',
       isPositive: true,
       icon: Percent,
@@ -65,7 +65,7 @@ export default function AdminEarnings({ earnings }: { earnings: any }) {
             </span>
           </div>
           <p className="text-4xl font-extrabold text-white tracking-tight">
-            {formatCurrency(earnings.totalEarnings)}
+            {formatCurrency(earnings?.totalEarnings)}
           </p>
           <div className="flex items-center gap-1.5 mt-4 text-sm bg-white/10 w-fit px-2.5 py-1 rounded-full backdrop-blur-sm border border-white/5">
             <span className="text-emerald-400 flex items-center font-bold">
@@ -79,7 +79,7 @@ export default function AdminEarnings({ earnings }: { earnings: any }) {
 
       {/* Breakdown List */}
       <div className="flex-1 overflow-y-auto pr-2 space-y-5 scrollbar-thin">
-        {earningsData.map((item) => {
+        {earningsData?.map((item) => {
           const Icon = item.icon;
           return (
             <div
