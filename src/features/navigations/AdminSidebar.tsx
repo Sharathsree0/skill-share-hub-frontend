@@ -1,38 +1,39 @@
 import { NavLink } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  BookOpen, 
-  Settings, 
-  LogOut, 
-  GraduationCap
+import {
+  LayoutDashboard,
+  Users,
+  BookOpen,
+  Settings,
+  LogOut,
+  GraduationCap,
 } from 'lucide-react';
 
-const AdminSidebar = () => {
-  const links = [
-    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-    { name: 'Users', path: '/admin/users', icon: Users },
-    { name: 'Courses', path: '/admin/courses', icon: BookOpen },
-    { name: 'Enrollments', path: '/admin/enrollments', icon: GraduationCap },
-    { name: 'Settings', path: '/admin/settings', icon: Settings },
-  ];
+const links = [
+  { name: 'Dashboard',   path: '/admin',             icon: LayoutDashboard },
+  { name: 'Users',       path: '/admin/tutors',       icon: Users },
+  { name: 'Courses',     path: '/admin/courses',      icon: BookOpen },
+  { name: 'Enrollments', path: '/admin/enrollments',  icon: GraduationCap },
+  { name: 'Settings',    path: '/admin/settings',     icon: Settings },
+];
 
+const AdminSidebar = () => {
   return (
-    <aside className="group fixed top-0 left-0 h-screen w-20 hover:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 ease-in-out z-50 overflow-hidden">
-      {/* Logo Area */}
-      <div className="flex items-center h-20 border-b border-slate-200 dark:border-slate-800 px-6 shrink-0">
-        <div className="flex items-center gap-4">
-          <div className="min-w-8 w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm shadow-blue-500/20 shrink-0">
-            <span className="text-white font-bold text-lg">S</span>
+    <aside className="group fixed top-0 left-0 h-screen w-[60px] hover:w-56 bg-[#0d0f12] border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out z-50 overflow-hidden">
+
+      {/* Logo */}
+      <div className="flex items-center h-16 border-b border-gray-800 px-4 shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="min-w-[28px] w-7 h-7 rounded-lg bg-gray-700 flex items-center justify-center shrink-0">
+            <span className="text-white font-bold text-sm">S</span>
           </div>
-          <span className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+          <span className="text-sm font-semibold text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 tracking-tight">
             AdminPanel
           </span>
         </div>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-4 space-y-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 text-slate-600 dark:text-slate-400">
+      {/* Nav */}
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-1 scrollbar-thin scrollbar-thumb-gray-800">
         {links.map((link) => {
           const Icon = link.icon;
           return (
@@ -42,30 +43,37 @@ const AdminSidebar = () => {
               end={link.path === '/admin'}
               title={link.name}
               className={({ isActive }) =>
-                `flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-200 ${
-                  isActive 
-                    ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold shadow-sm' 
-                    : 'hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-100 font-medium'
+                `flex items-center gap-3 px-2.5 py-2.5 rounded-lg transition-all duration-150 ${
+                  isActive
+                    ? 'bg-gray-800 text-white'
+                    : 'text-gray-500 hover:text-gray-200 hover:bg-gray-800/60'
                 }`
               }
             >
-              <Icon size={22} className="shrink-0" />
-              <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
-                {link.name}
-              </span>
+              {({ isActive }) => (
+                <>
+                  <Icon size={18} className="shrink-0" strokeWidth={isActive ? 2.5 : 1.8} />
+                  <span className="whitespace-nowrap text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
+                    {link.name}
+                  </span>
+                  {isActive && (
+                    <span className="ml-auto w-1 h-1 rounded-full bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 shrink-0" />
+                  )}
+                </>
+              )}
             </NavLink>
           );
         })}
       </nav>
 
-      {/* Bottom Section */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 shrink-0 overflow-hidden">
-        <button 
-          className="flex items-center gap-4 px-3 py-3 w-full rounded-xl text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors duration-200 font-medium"
+      {/* Sign Out */}
+      <div className="p-3 border-t border-gray-800 shrink-0">
+        <button
           title="Sign Out"
+          className="flex items-center gap-3 px-2.5 py-2.5 w-full rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-150"
         >
-          <LogOut size={22} className="shrink-0 group-hover:text-red-500 transition-colors duration-200" />
-          <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
+          <LogOut size={18} className="shrink-0" strokeWidth={1.8} />
+          <span className="whitespace-nowrap text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
             Sign Out
           </span>
         </button>

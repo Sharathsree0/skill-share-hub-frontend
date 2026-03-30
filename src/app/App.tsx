@@ -25,6 +25,7 @@ import StudentProfilePage from "../features/profile/pages/studentProfilePage";
 import Content from "../features/content/Content";
 import CoursePurchasePage from "../features/coursePurchase/pages/CoursePurchasePage";
 import SavedCoursesPage from "../features/courses/pages/savedCourses";
+import TutorList from "../features/adminDashboard/TutorList";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -80,6 +81,7 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin/tutors" element={<TutorList />} />
           </Route>
         </Route>
 
