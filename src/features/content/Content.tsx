@@ -124,7 +124,8 @@ export default function Content() {
                                         content?._id &&
                                         data.enrollment?.completedContent?.includes(content?._id)
                                     }
-                                    handleComplete={fetchQuiz}
+                                    handleComplete={handleComplete}
+                                    fetchQuiz={fetchQuiz}
                                     loading={loading}
                                 />
                             </section>
