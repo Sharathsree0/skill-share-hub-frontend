@@ -6,6 +6,7 @@ interface VideoCompProps {
     title?: string;
     poster ?: string;
     handleComplete : () => void;
+    fetchQuiz : () => void ;
     loading : boolean;
     isCompleted : boolean
 }
@@ -15,6 +16,7 @@ export default function VideoComp({
     videoUrl, 
     title = "Introduction to the Course",
     handleComplete ,
+    fetchQuiz,
     loading,
     isCompleted
 
@@ -56,7 +58,7 @@ export default function VideoComp({
                 <h2 className="text-2xl font-bold text-gray-900 capitalize">{title}</h2>
                 <div className="flex items-center gap-3">
                     <button
-                        onClick={handleComplete}
+                        onClick={() => isCompleted ? handleComplete() : fetchQuiz()}
                         disabled={loading}
                         className={`
                         flex w-[220px] justify-center items-center gap-2 px-4 py-2 
